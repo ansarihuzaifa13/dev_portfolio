@@ -8,25 +8,25 @@ class ExperienceSection extends StatelessWidget {
       'title': 'Flutter Developer at WealthRight',
       'year': 'Oct 2024 - Present',
       'description':
-          'Developed a robust investment portfolio app in Flutter (WealthRight Customer), enabling users to track mutual funds, insurance, and assets in real-time. Integrated APIs for data and performance metrics, implemented real-time updates with Firebase, and created interactive data visualizations. Ensured secure authentication and data encryption for sensitive financial information.',
+          '• Published WealthRight Customer app on Play Store and App Store \n• Built a robust investment portfolio app in Flutter for real-time asset tracking (mutual funds, insurance,etc.) \n• Developed Flutter web app for lead generation in mutual fund domain \n• Integrated APIs to fetch financial data & compute portfolio performance \n• Enabled real-time updates using Firebase Firestore, Google Analytics & Crashlytics \n• Designed interactive data visualizations using Flutter Charts & CustomPainter \n• Secured user data via 3rd-party APIs, encryption, and authentication systems',
     },
     {
       'title': 'Full Stack Flutter Developer at Alphaneon Studioz',
       'year': 'May 2024 - Oct 2024',
       'description':
-          'Launched 3 mobile apps on Play Store and App Store (Alphaneon Studioz, Ticketmart, ABS). Designed adaptive UIs with Flutter, collaborated with designers, and used Provider/Bloc for state management. Integrated PHP/MySQL/Firebase backends, managed real-time data with WebSockets, and implemented video playback. Enhanced app performance, offline caching, and integrated third-party services for a seamless user experience.',
+          '• Launched 3 apps (Alphaneon Studioz, ABS, Ticketmart) on Play Store & App Store \n• Built responsive, adaptive UIs using Flutter’s widget system \n• Collaborated with designers for clean and intuitive UI/UX \n• Used Bloc and Provider for efficient state management \n• Integrated Firebase, PHP & MySQL for backend services \n• Enabled real-time updates using WebSockets \n• Added video playback & streaming via video_player plugin \n• Implemented secure auth using OAuth, JWT & Firebase \n• Optimized performance for load speed & memory usage \n• Built offline support with caching & sync features \n• Integrated OTP login, analytics, and social media SDKs \n• Wrote unit, widget & integration tests for quality assurance \n• Managed staging & production deployments seamlessly',
     },
     {
       'title': 'Flutter Developer at Mavonic Technology',
       'year': 'Jun 2022 - Apr 2024',
       'description':
-          'Launched Dashfit app on Play Store and App Store, optimizing for performance and device compatibility. Developed insurance and fitness apps in Flutter, backend in Node.js. Used Git for version control, FlutterFlow for rapid UI, and Figma for design. Integrated Firestore for real-time data and documented best practices. Proficient in JavaScript, Node.js, and SQL.',
+          '• Published Dashfit – Workout Challenge on Play Store & App Store \n• Built cross-platform apps in fitness & insurance domains using Flutter \n• Developed backend services & e-commerce site using Node.js & Express.js \n• Followed clean code practices, Git version control & test-driven dev \n• Ensured smooth performance across devices & screen sizes \n• Rapidly prototyped UIs using FlutterFlow & Figma collaboration \n• Integrated Firestore for real-time data sync and dynamic updates \n• Documented best practices for FlutterFlow & Firestore usage \n• Proficient in JavaScript, Node.js, SQL & RESTful API integration \n• Experienced with MySQL and backend architecture design \n• Applied software testing principles for robust app delivery \n• Effective team collaborator with strong independent ownership',
     },
     {
       'title': 'Quality Assurance Engineer at Livquik',
       'year': 'Sept 2019 - May 2022',
       'description':
-          'Worked on gift card, acquiring, auditor, and merchant gateway projects. Created test plans, cases, and reports; performed manual, regression, smoke, and sanity testing. Followed SDLC/STLC for web and mobile apps, managed backend/database tasks, and used Jira/Confluence for bug tracking.',
+          '• Worked on different projects for Issuing of Giftcards, Acquiring platform, Auditor Dashboard, Merchant payment gateway. \n• Creating test cases, test strategies & scenarios, use cases, test planning, test reports, testing tools & techniques. \n• Performing manual testing, regression testing, smoke, sanity. \n• Following SDLC & STLC on websites and mobile applications. \n• Handling of database/ back end. Hands-on experience in bug tracking tools i.e Jira and Confluence.',
     }
   ];
 

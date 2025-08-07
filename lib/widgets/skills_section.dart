@@ -41,6 +41,24 @@ class _SkillsSectionState extends State<SkillsSection> with SingleTickerProvider
     'User Experience Design',
   ];
 
+  final List<String> softSkills = const [
+  'Communication',
+  'Teamwork',
+  'Problem Solving',
+  'Time Management',
+  'Adaptability',
+  'Attention to Detail',
+  'Critical Thinking',
+  'Creativity',
+  'Leadership',
+  'Conflict Resolution',
+  'Client Communication',
+  'Decision Making',
+  'Presentation Skills',
+  'Project Ownership',
+];
+
+
   final List<int> _visibleChips = [];
 
   @override
@@ -49,16 +67,18 @@ class _SkillsSectionState extends State<SkillsSection> with SingleTickerProvider
     _animateChips();
   }
 
-  void _animateChips() async {
-    for (int i = 0; i < skills.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 60));
-      if (mounted) {
-        setState(() {
-          _visibleChips.add(i);
-        });
-      }
+ void _animateChips() async {
+  final totalChips = skills.length + softSkills.length;
+  for (int i = 0; i < totalChips; i++) {
+    await Future.delayed(const Duration(milliseconds: 60));
+    if (mounted) {
+      setState(() {
+        _visibleChips.add(i);
+      });
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +115,7 @@ class _SkillsSectionState extends State<SkillsSection> with SingleTickerProvider
               ),
               const SizedBox(height: 20),
               Text(
-                "A comprehensive list of my technical skills and expertise that showcase my capabilities in software development.",
+                "A comprehensive list of my technical & soft skills and expertise that showcase my capabilities in software development.",
                 style: TextStyle(
                   fontSize: isMobile ? 16 : 20,
                   fontWeight: FontWeight.bold,
@@ -120,6 +140,43 @@ class _SkillsSectionState extends State<SkillsSection> with SingleTickerProvider
                   );
                 }),
               ),
+              const SizedBox(height: 40),
+Align(
+  alignment: Alignment.centerLeft,
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+    decoration: BoxDecoration(
+      color: Colors.transparent,
+      border: Border.all(color: isMobile ? Colors.white : Colors.black, width: 1),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Text(
+      "Soft Skills",
+      style: TextStyle(
+        color: isMobile ? Colors.white : Colors.black,
+      ),
+    ),
+  ),
+),
+const SizedBox(height: 20),
+Wrap(
+  spacing: spacing,
+  runSpacing: spacing,
+  children: List.generate(softSkills.length, (i) {
+    return AnimatedOpacity(
+      opacity: _visibleChips.contains(i + skills.length) ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeIn,
+      child: _SkillChip(
+        label: softSkills[i],
+        fontSize: chipFontSize,
+        padding: chipPadding,
+        isMobile: isMobile,
+      ),
+    );
+  }),
+),
+
             ],
           ),
         );

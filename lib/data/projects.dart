@@ -37,7 +37,7 @@ final List<Map<String, String>> projects = [
   {
     'title': 'Portfolio Site',
     'description': 'This site built with Flutter Web.',
-    'url': 'https://github.com/yourname/flutter-portfolio',
+    'url': 'https://ansarihuzaifa13.github.io/dev_portfolio/',
     'imageAsset': 'assets/images/port.png', // <-- Add this line
 
   },
