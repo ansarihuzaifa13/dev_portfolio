@@ -2,7 +2,7 @@
 
 Welcome to my personal portfolio website built with **Flutter Web** and hosted using **GitHub Pages**!
 
-🚀 Live here: [https://ansarihuzaifa13.github.io/dev_portfolio/](https://ansarihuzaifa13.github.io/portfolio/)
+🚀 Live here: [[https://ansarihuzaifa13.github.io/dev_portfolio/](https://ansarihuzaifa13.github.io/portfolio/)](https://ansarihuzaifa13.github.io/dev_portfolio/)
 
 ## 🧑‍💻 About Me
 
