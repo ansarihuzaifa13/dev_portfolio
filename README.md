@@ -1,16 +1,41 @@
-# dev_portfolio
+# 💼 Huzaifa Ansari — Portfolio Website
 
-A new Flutter project.
+Welcome to my personal portfolio website built with **Flutter Web** and hosted using **GitHub Pages**!
 
-## Getting Started
+🚀 Live here: [https://ansarihuzaifa13.github.io/portfolio/](https://ansarihuzaifa13.github.io/portfolio/)
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 🧑‍💻 About Me
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+I'm **Huzaifa Ansari**, a passionate Flutter developer focused on building performant and scalable apps for **mobile**, **web**, and **desktop**. I enjoy working with:
+- Flutter & Dart
+- Firebase & REST APIs
+- Clean Architecture & State Management (BLoC, Riverpod, Provider)
+- UI/UX Design and Animations
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🛠️ Tech Stack
+
+| Category         | Tools/Technologies                      |
+|------------------|------------------------------------------|
+| 🧰 Framework      | Flutter Web                             |
+| 🎨 UI Design      | Custom widgets, Responsive Layout       |
+| ☁️ Hosting        | GitHub Pages                            |
+| 📦 State Mgmt     | Provider / BLoC / Riverpod   |
+| 💡 Animation      | AnimatedBuilder, Lottie                 |
+| 📁 Assets         | Images, WebP, Custom Fonts              |
+
+---
+
+
+## 🧪 Run Locally
+
+Clone the project and run:
+
+```bash
+git clone https://github.com/ansarihuzaifa13/portfolio.git
+cd portfolio
+flutter pub get
+flutter run -d chrome
