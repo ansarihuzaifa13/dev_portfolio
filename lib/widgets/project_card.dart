@@ -3,11 +3,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProjectCard extends StatefulWidget {
   final String title, description, url, imageAsset;
+  final List<String> techTags;
+
   const ProjectCard({
     required this.title,
     required this.description,
     required this.url,
     required this.imageAsset,
+    this.techTags = const [],
     super.key,
   });
 
@@ -15,127 +18,184 @@ class ProjectCard extends StatefulWidget {
   State<ProjectCard> createState() => _ProjectCardState();
 }
 
-class _ProjectCardState extends State<ProjectCard> {
+class _ProjectCardState extends State<ProjectCard>
+    with SingleTickerProviderStateMixin {
   bool _hovering = false;
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isWide = constraints.maxWidth > 400;
-        final isMobile = constraints.maxWidth < 600;
-        final padding = isWide ? 20.0 : 12.0;
-        final titleFontSize = isWide ? 20.0 : 16.0;
-        final descFontSize = isWide ? 14.0 : 12.0;
+    final isMobile = MediaQuery.of(context).size.width < 600;
 
-        return MouseRegion(
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: MouseRegion(
           onEnter: (_) => setState(() => _hovering = true),
           onExit: (_) => setState(() => _hovering = false),
           child: GestureDetector(
             onTap: () => launchUrl(Uri.parse(widget.url)),
-            child: Container(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
               margin: const EdgeInsets.all(8),
-              padding: EdgeInsets.all(padding),
               constraints: const BoxConstraints(
                 minWidth: 250,
                 maxWidth: 350,
-                minHeight: 200,
-                maxHeight: 320,
+                minHeight: 220,
+                maxHeight: 350,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
-                  color: isMobile
-                      ? Colors.white
-                      : Colors.black,
+                  color: _hovering ? Colors.white : Colors.black,
                   width: 1.2,
                 ),
-                gradient: _hovering
-                    ? LinearGradient(
-                        colors: isMobile
-                            ? [Colors.white12, Colors.white10]
-                            : [Colors.black, Colors.grey[900]!],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      )
-                    : LinearGradient(
-                        colors: isMobile
-                            ? [Colors.black, Colors.black]
-                            : [Colors.white, Colors.grey[100]!],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
                 boxShadow: [
                   BoxShadow(
-                    color: isMobile
-        ? Colors.white.withAlpha((0.04 * 255).toInt())
-                        : Colors.black.withAlpha(_hovering ? 31 : 18),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
+                    color: _hovering
+                        ? Colors.black.withValues(alpha: 0.25)
+                        : Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
-                  // Project image at the top
+                  // Background image
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(18),
                     child: Image.asset(
                       widget.imageAsset,
-                      height: isMobile ? 120 : 100,
-                      width: double.infinity,
                       fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
                     ),
                   ),
-                  const SizedBox(height: 14),
-                  // Line before heading
-                  Container(
-                    height: 3,
-                    width: 40,
-                    margin: const EdgeInsets.only(bottom: 12),
-                    color: _hovering
-                        ? (isMobile ? Colors.black : Colors.white)
-                        : (isMobile ? Colors.white : Colors.black),
-                  ),
-                  Text(
-                    widget.title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontSize: titleFontSize,
-                          color: _hovering
-                              ? (isMobile ? Colors.black : Colors.white)
-                              : (isMobile ? Colors.white : Colors.black),
-                        ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    widget.description,
-                    style: TextStyle(
+
+                  // Black overlay when hovering
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    decoration: BoxDecoration(
                       color: _hovering
-                          ? (isMobile ? Colors.black87 : Colors.white70)
-                          : (isMobile ? Colors.white70 : Colors.black),
-                      fontSize: descFontSize,
+                          ? Colors.black.withValues(alpha: 0.85)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(18),
                     ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const Spacer(),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Icon(
-                      Icons.arrow_forward,
-                      color: _hovering
-                          ? (isMobile ? Colors.black : Colors.white)
-                          : (isMobile ? Colors.white : Colors.black),
-                      size: 28,
+
+                  // Title, description & tags — only visible on hover
+                  AnimatedOpacity(
+                    opacity: _hovering ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 250),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 3,
+                            width: 40,
+                            margin: const EdgeInsets.only(bottom: 12),
+                            color: Colors.white,
+                          ),
+                          Text(
+                            widget.title,
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  fontSize: isMobile ? 16 : 20,
+                                  color: Colors.white,
+                                ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            widget.description,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                            maxLines: 10,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          if (widget.techTags.isNotEmpty) ...[
+                            const SizedBox(height: 10),
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: widget.techTags.map((tag) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white12,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    tag,
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                          const Spacer(),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: AnimatedRotation(
+                              duration: const Duration(milliseconds: 250),
+                              turns: _hovering ? 0.25 : 0,
+                              child: const Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

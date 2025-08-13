@@ -7,115 +7,121 @@ class SkillsSection extends StatefulWidget {
   State<SkillsSection> createState() => _SkillsSectionState();
 }
 
-class _SkillsSectionState extends State<SkillsSection> with SingleTickerProviderStateMixin {
-  final List<String> skills = const [
-    'Flutter',
-    'Dart',
-    'Firebase',
-    'REST APIs',
-    'Clean Architecture',
-    'Git & GitHub',
-    'SQL & NoSQL',
-    'UI/UX Design',
-    'Coding',
-    'Software Product Development',
-    'Web app development',
-    'Backend',
-    'API development',
-    'Node js',
-    'Android Studio',
-    'Xcode',
-    'Firestore',
-    'SQL',
-    'PHP',
-    'GCP',
-    'Google Cloud Platform',
-    'Figma',
-    'Agile Methodologies',
-    'Debugging',
-    'Testing',
-    'Version Control',
-    'App Deployment',
-    'Code Review',
-    'User Interface Design',
-    'User Experience Design',
-  ];
+class _SkillsSectionState extends State<SkillsSection>
+    with SingleTickerProviderStateMixin {
+  final Map<String, List<String>> categorizedSkills = const {
+    "Frontend": [
+      "Flutter",
+      "Dart",
+      "UI/UX Design",
+      "Figma",
+      "User Interface Design",
+      "User Experience Design",
+      "HTML & CSS",
+      "PHP"
+    ],
+    "Backend": [
+      "Firebase",
+      "REST APIs",
+      "Clean Architecture",
+      "API Development",
+      "Node.js",
+      "PHP",
+      "SQL",
+      "NoSQL",
+      "Firestore",
+    ],
+    "Tools & Platforms": [
+      "Git & GitHub",
+      "GCP",
+      "Google Cloud Platform",
+      "Android Studio",
+      "Xcode",
+      "Agile Methodologies",
+      "Version Control",
+      "App Deployment",
+      "Code Review",
+      "Debugging",
+      "Testing",
+    ],
+    "Soft Skills": [
+      "Communication",
+      "Teamwork",
+      "Problem Solving",
+      "Time Management",
+      "Adaptability",
+      "Attention to Detail",
+      "Critical Thinking",
+      "Creativity",
+      "Leadership",
+      "Conflict Resolution",
+      "Client Communication",
+      "Decision Making",
+      "Presentation Skills",
+      "Project Ownership",
+    ],
+  };
 
-  final List<String> softSkills = const [
-  'Communication',
-  'Teamwork',
-  'Problem Solving',
-  'Time Management',
-  'Adaptability',
-  'Attention to Detail',
-  'Critical Thinking',
-  'Creativity',
-  'Leadership',
-  'Conflict Resolution',
-  'Client Communication',
-  'Decision Making',
-  'Presentation Skills',
-  'Project Ownership',
-];
-
-
-  final List<int> _visibleChips = [];
+  final List<int> _visibleCategories = [];
 
   @override
   void initState() {
     super.initState();
-    _animateChips();
+    _animateCategories();
   }
 
- void _animateChips() async {
-  final totalChips = skills.length + softSkills.length;
-  for (int i = 0; i < totalChips; i++) {
-    await Future.delayed(const Duration(milliseconds: 60));
-    if (mounted) {
-      setState(() {
-        _visibleChips.add(i);
-      });
+  void _animateCategories() async {
+    for (int i = 0; i < categorizedSkills.length; i++) {
+      await Future.delayed(const Duration(milliseconds: 150));
+      if (mounted) {
+        setState(() {
+          _visibleCategories.add(i);
+        });
+      }
     }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isWide = constraints.maxWidth > 700;
         final isMobile = constraints.maxWidth < 600;
-        final double padding = isWide ? 32.0 : 16.0;
-        final double chipFontSize = isWide ? 18.0 : 14.0;
-        final double chipPadding = isWide ? 16.0 : 10.0;
-        final double spacing = isWide ? 16.0 : 8.0;
+        final double padding = isMobile ? 16.0 : 32.0;
 
         return Padding(
           padding: EdgeInsets.all(padding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Section Header
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: isMobile ? Colors.white : Colors.black, width: 1),
+                    border: Border.all(
+                      color: isMobile ? Colors.white : Colors.black,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     "Skills",
                     style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                       color: isMobile ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
+
               Text(
-                "A comprehensive list of my technical & soft skills and expertise that showcase my capabilities in software development.",
+                "A categorized view of my technical and soft skills.",
                 style: TextStyle(
                   fontSize: isMobile ? 16 : 20,
                   fontWeight: FontWeight.bold,
@@ -123,60 +129,24 @@ class _SkillsSectionState extends State<SkillsSection> with SingleTickerProvider
                 ),
               ),
               const SizedBox(height: 20),
-              Wrap(
-                spacing: spacing,
-                runSpacing: spacing,
-                children: List.generate(skills.length, (i) {
+
+              // Skill Categories
+              Column(
+                children: List.generate(categorizedSkills.length, (index) {
+                  String category = categorizedSkills.keys.elementAt(index);
+                  List<String> skills = categorizedSkills[category]!;
+
                   return AnimatedOpacity(
-                    opacity: _visibleChips.contains(i) ? 1.0 : 0.0,
+                    opacity: _visibleCategories.contains(index) ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeIn,
-                    child: _SkillChip(
-                      label: skills[i],
-                      fontSize: chipFontSize,
-                      padding: chipPadding,
+                    child: _SkillCategoryTile(
+                      title: category,
+                      skills: skills,
                       isMobile: isMobile,
                     ),
                   );
                 }),
               ),
-              const SizedBox(height: 40),
-Align(
-  alignment: Alignment.centerLeft,
-  child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      border: Border.all(color: isMobile ? Colors.white : Colors.black, width: 1),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Text(
-      "Soft Skills",
-      style: TextStyle(
-        color: isMobile ? Colors.white : Colors.black,
-      ),
-    ),
-  ),
-),
-const SizedBox(height: 20),
-Wrap(
-  spacing: spacing,
-  runSpacing: spacing,
-  children: List.generate(softSkills.length, (i) {
-    return AnimatedOpacity(
-      opacity: _visibleChips.contains(i + skills.length) ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeIn,
-      child: _SkillChip(
-        label: softSkills[i],
-        fontSize: chipFontSize,
-        padding: chipPadding,
-        isMobile: isMobile,
-      ),
-    );
-  }),
-),
-
             ],
           ),
         );
@@ -185,24 +155,22 @@ Wrap(
   }
 }
 
-class _SkillChip extends StatefulWidget {
-  final String label;
-  final double fontSize;
-  final double padding;
+class _SkillCategoryTile extends StatefulWidget {
+  final String title;
+  final List<String> skills;
   final bool isMobile;
 
-  const _SkillChip({
-    required this.label,
-    this.fontSize = 12.0,
-    this.padding = 10.0,
-    this.isMobile = false,
+  const _SkillCategoryTile({
+    required this.title,
+    required this.skills,
+    required this.isMobile,
   });
 
   @override
-  State<_SkillChip> createState() => _SkillChipState();
+  State<_SkillCategoryTile> createState() => _SkillCategoryTileState();
 }
 
-class _SkillChipState extends State<_SkillChip> {
+class _SkillCategoryTileState extends State<_SkillCategoryTile> {
   bool _hovering = false;
 
   @override
@@ -210,28 +178,52 @@ class _SkillChipState extends State<_SkillChip> {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovering = true),
       onExit: (_) => setState(() => _hovering = false),
-      child: Tooltip(
-        message: 'Skill: ${widget.label}',
-        child: Chip(
-          avatar: Icon(Icons.code,
-              size: widget.fontSize,
-              color: _hovering ? Colors.white : (widget.isMobile ? Colors.white : Colors.black)),
-          label: Padding(
-            padding: EdgeInsets.symmetric(horizontal: widget.padding, vertical: 4),
-            child: Text(
-              widget.label,
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: _hovering
+              ? Colors.black
+              : (widget.isMobile ? Colors.black.withValues(alpha: 0.7) : Colors.grey[100]),
+          border: Border.all(
+            color: widget.isMobile ? Colors.white : Colors.black,
+          ),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Category title
+            Text(
+              widget.title,
               style: TextStyle(
-                color: _hovering ? Colors.white : (widget.isMobile ? Colors.white : Colors.black),
-                fontSize: widget.fontSize,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _hovering
+                    ? Colors.white
+                    : (widget.isMobile ? Colors.white : Colors.black),
               ),
             ),
-          ),
-          backgroundColor: _hovering
-              ? Colors.black
-              : (widget.isMobile ? Colors.black.withAlpha((0.7 * 255).toInt()) : Colors.grey[100]),
-          side: BorderSide(color: widget.isMobile ? Colors.white : Colors.black),
-          elevation: 2,
-          shadowColor: Colors.grey[300],
+            const SizedBox(height: 8),
+            // Skills list
+            Text(
+              widget.skills.join(" • "),
+              style: TextStyle(
+                fontSize: 16,
+                color: _hovering
+                    ? Colors.white
+                    : (widget.isMobile ? Colors.white70 : Colors.black87),
+              ),
+            ),
+          ],
         ),
       ),
     );

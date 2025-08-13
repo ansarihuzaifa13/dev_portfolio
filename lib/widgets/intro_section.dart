@@ -30,6 +30,14 @@ class _IntroSectionState extends State<IntroSection>
     super.dispose();
   }
 
+  // Function to launch URLs
+  void _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -39,6 +47,8 @@ class _IntroSectionState extends State<IntroSection>
         final double padding = isWide ? 50 : 16;
         final double imageWidth = isWide ? 200 : 120;
         final double titleFontSize = isWide ? 100 : 48;
+
+        final textColor = Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black;
 
         Widget leftSection = Column(
           mainAxisSize: MainAxisSize.min,
@@ -53,7 +63,7 @@ class _IntroSectionState extends State<IntroSection>
                   textStyle: TextStyle(
                     fontSize: titleFontSize,
                     fontWeight: FontWeight.bold,
-                    color: isMobile ? Colors.white : Colors.black,
+                    color: textColor,
                   ),
                   speed: const Duration(milliseconds: 80),
                 ),
@@ -64,35 +74,38 @@ class _IntroSectionState extends State<IntroSection>
             ElevatedButton.icon(
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                  (Set<WidgetState> states) {
+                  (states) {
                     if (states.contains(WidgetState.hovered)) {
-                      return isMobile ? Colors.white : Colors.black;
+                      return Colors.black;
                     }
-                    return isMobile ? Colors.black : Colors.white;
+                    return Colors.white;
                   },
                 ),
                 foregroundColor: WidgetStateProperty.resolveWith<Color>(
-                  (Set<WidgetState> states) {
+                  (states) {
                     if (states.contains(WidgetState.hovered)) {
-                      return isMobile ? Colors.black : Colors.white;
+                      return Colors.white;
                     }
-                    return isMobile ? Colors.white : Colors.black;
+                    return Colors.black;
                   },
                 ),
-                textStyle: WidgetStateProperty.all(const TextStyle(
-                  fontFamily: 'SourceCodePro',
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
-                )),
+                textStyle: WidgetStateProperty.all(
+                  const TextStyle(
+                    fontFamily: 'SourceCodePro',
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                ),
                 padding: WidgetStateProperty.all(
                   const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 ),
                 shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(
-                        color: isMobile ? Colors.white : Colors.black,
-                        width: 1),
+                    side: const BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    ),
                   ),
                 ),
               ),
@@ -107,8 +120,9 @@ class _IntroSectionState extends State<IntroSection>
 
         Widget rightSection = Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment:
-              isWide ? CrossAxisAlignment.end : CrossAxisAlignment.center,
+          crossAxisAlignment: isWide
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.center,
           children: [
             Align(
               alignment: isWide ? Alignment.centerRight : Alignment.center,
@@ -126,9 +140,10 @@ class _IntroSectionState extends State<IntroSection>
               animatedTexts: [
                 TyperAnimatedText(
                   "Hi, I'm Huzaifa 👨‍💻",
-                  textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: isMobile ? Colors.white : Colors.black,
-                      ),
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: textColor),
                   speed: const Duration(milliseconds: 80),
                 ),
               ],
@@ -138,10 +153,8 @@ class _IntroSectionState extends State<IntroSection>
             AnimatedTextKit(
               animatedTexts: [
                 TyperAnimatedText(
-                  "Flutter Developer | Full Stack Developer",
-                  textStyle: TextStyle(
-                    color: isMobile ? Colors.white : Colors.black,
-                  ),
+                  "Flutter Developer | Full Stack Developer | App & Web Developer",
+                  textStyle: TextStyle(color: textColor),
                   speed: const Duration(milliseconds: 50),
                 ),
               ],
@@ -152,13 +165,38 @@ class _IntroSectionState extends State<IntroSection>
               animatedTexts: [
                 TyperAnimatedText(
                   "Crafting seamless digital experiences📱",
-                  textStyle: TextStyle(
-                    color: isMobile ? Colors.white : Colors.black,
-                  ),
+                  textStyle: TextStyle(color: textColor),
                   speed: const Duration(milliseconds: 50),
                 ),
               ],
               isRepeatingAnimation: false,
+            ),
+            const SizedBox(height: 10),
+            // Social Media Row
+            Row(
+              mainAxisAlignment:
+                  isWide ? MainAxisAlignment.end : MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Image.asset('images/github.png', width: 32),
+                  onPressed: () =>
+                      _launchUrl("https://github.com/ansarihuzaifa13"),
+                ),
+                IconButton(
+                  icon: Image.asset('images/whatsapp.png', width: 32),
+                  onPressed: () => _launchUrl("https://wa.me/919619566787"),
+                ),
+                IconButton(
+                  icon: Image.asset('images/linkedin.png', width: 32),
+                  onPressed: () => _launchUrl(
+                      "https://linkedin.com/in/mohammed-huzaifa-ansari-9261b7180"),
+                ),
+                IconButton(
+                  icon: Image.asset('images/email.png', width: 32),
+                  onPressed: () =>
+                      _launchUrl("mailto:your.ansarihuzaifa1310@gmail.com"),
+                ),
+              ],
             ),
           ],
         );
@@ -167,10 +205,9 @@ class _IntroSectionState extends State<IntroSection>
           opacity: _animation,
           child: Stack(
             children: [
-
               Container(
                 width: double.infinity,
-                color: isMobile ? Colors.black : Colors.white,
+                color: Colors.white, // Always white
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: EdgeInsets.all(padding),

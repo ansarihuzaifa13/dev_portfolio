@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
@@ -20,7 +22,7 @@ class ExperienceSection extends StatelessWidget {
       'title': 'Flutter Developer at Mavonic Technology',
       'year': 'Jun 2022 - Apr 2024',
       'description':
-          '• Published Dashfit – Workout Challenge on Play Store & App Store \n• Built cross-platform apps in fitness & insurance domains using Flutter \n• Developed backend services & e-commerce site using Node.js & Express.js \n• Followed clean code practices, Git version control & test-driven dev \n• Ensured smooth performance across devices & screen sizes \n• Rapidly prototyped UIs using FlutterFlow & Figma collaboration \n• Integrated Firestore for real-time data sync and dynamic updates \n• Documented best practices for FlutterFlow & Firestore usage \n• Proficient in JavaScript, Node.js, SQL & RESTful API integration \n• Experienced with MySQL and backend architecture design \n• Applied software testing principles for robust app delivery \n• Effective team collaborator with strong independent ownership',
+          '• Published Dashfit – Workout Challenge on Play Store & App Store \n• Built cross-platform apps in fitness & insurance domains using Flutter \n• Developed backend services & e-commerce site using Node.js & Express.js for https://prajav.com/ \n• Followed clean code practices, Git version control & test-driven dev \n• Ensured smooth performance across devices & screen sizes \n• Rapidly prototyped UIs using FlutterFlow & Figma collaboration \n• Integrated Firestore for real-time data sync and dynamic updates \n• Documented best practices for FlutterFlow & Firestore usage \n• Proficient in JavaScript, Node.js, SQL & RESTful API integration \n• Experienced with MySQL and backend architecture design \n• Applied software testing principles for robust app delivery \n• Effective team collaborator with strong independent ownership',
     },
     {
       'title': 'Quality Assurance Engineer at Livquik',
@@ -132,6 +134,13 @@ class _ExperienceTile extends StatefulWidget {
 class _ExperienceTileState extends State<_ExperienceTile> {
   bool _hovering = false;
 
+  Future<void> _onOpen(LinkableElement link) async {
+    final Uri url = Uri.parse(link.url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width > 600;
@@ -176,14 +185,17 @@ class _ExperienceTileState extends State<_ExperienceTile> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        widget.exp['description'] ?? '',
+                      Linkify(
+                        onOpen: _onOpen,
+                        text: widget.exp['description'] ?? '',
                         style: const TextStyle(
                           fontSize: 15,
                           color: Colors.white70,
                         ),
-                        maxLines: null,
-                        overflow: TextOverflow.visible,
+                        linkStyle: const TextStyle(
+                          color: Colors.blueAccent,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ],
                   )
@@ -204,14 +216,17 @@ class _ExperienceTileState extends State<_ExperienceTile> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            Text(
-                              widget.exp['description'] ?? '',
+                            Linkify(
+                              onOpen: _onOpen,
+                              text: widget.exp['description'] ?? '',
                               style: const TextStyle(
                                 fontSize: 17,
                                 color: Colors.white70,
                               ),
-                              maxLines: null,
-                              overflow: TextOverflow.visible,
+                              linkStyle: const TextStyle(
+                                color: Colors.blueAccent,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           ],
                         ),

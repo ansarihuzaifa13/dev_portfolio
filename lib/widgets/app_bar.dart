@@ -13,7 +13,7 @@ class CustomAppBar extends StatelessWidget {
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 700;
         return Container(
-          color: Colors.white, // White background
+          color: Colors.black, // Black background
           padding: EdgeInsets.symmetric(
             horizontal: isWide ? 32 : 16,
             vertical: isWide ? 12 : 8,
@@ -24,7 +24,7 @@ class CustomAppBar extends StatelessWidget {
               Text(
                 'Dev Portfolio',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.black, // Black text
+                      color: Colors.white, // White text
                       fontFamily: 'SourceCodePro',
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget {
               if (isWide)
                 Row(
                   children: [
-                    _NavButton(label: '#Home', onTap: () {/* Scroll to Home */}),
+                    _NavButton(label: '#Home', onTap: () {}), // No navigation
                     const SizedBox(width: 24),
                     _NavButton(label: '#About Me', onTap: () => onNav(aboutKey)),
                     const SizedBox(width: 24),
@@ -49,36 +49,55 @@ class CustomAppBar extends StatelessWidget {
                 )
               else
                 PopupMenuButton<int>(
-                  icon: const Icon(Icons.menu, color: Colors.black), // Black icon
-                  color: Colors.white, // White popup background
+                  icon: const Icon(Icons.menu, color: Colors.white), // White icon
+                  color: Colors.black, // Black popup background
                   itemBuilder: (context) => [
                     const PopupMenuItem(
                       value: 0,
-                      child: Text('#Home', style: TextStyle(color: Colors.black)),
+                      child: Text('#Home', style: TextStyle(color: Colors.white)),
                     ),
                     const PopupMenuItem(
                       value: 1,
-                      child: Text('#About Me', style: TextStyle(color: Colors.black)),
+                      child: Text('#About Me', style: TextStyle(color: Colors.white)),
                     ),
                     const PopupMenuItem(
                       value: 2,
-                      child: Text('#Skills', style: TextStyle(color: Colors.black)),
+                      child: Text('#Skills', style: TextStyle(color: Colors.white)),
                     ),
                     const PopupMenuItem(
                       value: 3,
-                      child: Text('#Experience', style: TextStyle(color: Colors.black)),
+                      child: Text('#Experience', style: TextStyle(color: Colors.white)),
                     ),
                     const PopupMenuItem(
                       value: 4,
-                      child: Text('#Projects', style: TextStyle(color: Colors.black)),
+                      child: Text('#Projects', style: TextStyle(color: Colors.white)),
                     ),
                     const PopupMenuItem(
                       value: 5,
-                      child: Text('#Contact Us', style: TextStyle(color: Colors.black)),
+                      child: Text('#Contact Us', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                   onSelected: (value) {
-                    // Handle navigation here
+                    switch (value) {
+                      case 0:
+                        // Stay on Home (do nothing)
+                        break;
+                      case 1:
+                        onNav(aboutKey);
+                        break;
+                      case 2:
+                        onNav(skillsKey);
+                        break;
+                      case 3:
+                        onNav(experienceKey);
+                        break;
+                      case 4:
+                        onNav(projectsKey);
+                        break;
+                      case 5:
+                        onNav(contactKey);
+                        break;
+                    }
                   },
                 ),
             ],
@@ -99,7 +118,7 @@ class _NavButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       style: ButtonStyle(
-        foregroundColor: WidgetStateProperty.all(Colors.black), // Black text
+        foregroundColor: WidgetStateProperty.all(Colors.white), // White text
         textStyle: WidgetStateProperty.all(
           Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontFamily: 'SourceCodePro',
@@ -108,7 +127,7 @@ class _NavButton extends StatelessWidget {
               ),
         ),
         overlayColor: WidgetStateProperty.resolveWith(
-          (states) => Colors.black26,
+          (states) => Colors.white24,
         ),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

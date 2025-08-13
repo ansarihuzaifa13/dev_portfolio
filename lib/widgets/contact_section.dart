@@ -58,6 +58,7 @@ class ContactSection extends StatelessWidget {
                               value: "Mumbai Central(400008), Mumbai, Maharashtra, India",
                             ),
                           ),
+                          SizedBox(width: 20),
                           Expanded(
                             child: _ContactRow(
                               label: "Email Address",

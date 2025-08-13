@@ -37,6 +37,7 @@ dependencies:
   animated_text_kit: ^4.2.3
   url_launcher: ^6.3.2
   google_fonts: ^6.3.0
+  flutter_linkify: ^6.0.0
 
 dev_dependencies:
   flutter_test:
